@@ -1,7 +1,5 @@
+// IMPORTING THESE ELEMENTS
 import { form, input, submiBtn, nextTopicsLists, pastTopicsLists } from './lib/elements.js';
-console.log(form, input, submiBtn, nextTopicsLists, pastTopicsLists);
-
-
 
 // Declaring the API link as a variable
 const endpoints = "https://gist.githubusercontent.com/Pinois/93afbc4a061352a0c70331ca4a16bb99/raw/6da767327041de13693181c2cb09459b0a3657a1/topics.json";
@@ -15,7 +13,7 @@ async function fetchdata() {
     console.log(items);
 
     // Mapping through the items
-    function showLists() {
+    function showLists(items) {
         return items.map(person => { 
             return `
             <article data-id="${person.id}" value="${person.id}" class="article">
@@ -41,29 +39,55 @@ async function fetchdata() {
             `
         }).join("");
     }
-    // Displaying the lists
+    // DISPLAY THE LISTS
     const showPeople = () => {
         const html = showLists(items);
         nextTopicsLists.innerHTML = html;
+        nextTopicsLists.dispatchEvent(new CustomEvent('listUpdated'));
     }
     showPeople();
 
-    // const initLocalStorage = () => {
-    //     const stringFromLS = localStorage.getItem('data');
-    //     const lsItems = JSON.parse(stringFromLS);
-    //     if (lsItems) {
-    //         data = lsItems;
-    //         showPeople();
-    //     }
-    //     nextTopicsLists.dispatchEvent(new CustomEvent('listUpdated'));
-    // };
-    
-    // const updateLocalStorage = () => {
-    //     localStorage.setItem('data', JSON.stringify(data));
-    // };
-    // // Adding eventListner in the updateLocalStorage
-    // nextTopicsLists.addEventListener("listUpdated", updateLocalStorage);
-    // initLocalStorage();
+    //***************** LOCAL STORAGE *********************// 
+
+    // Storing the data into the local storage
+    const initLocalStorage = () => {
+        const stringFromLS = localStorage.getItem('items');
+        const lsItems = JSON.parse(stringFromLS);
+        if (lsItems) {
+            items = lsItems;
+            showPeople(items);
+        }
+        nextTopicsLists.dispatchEvent(new CustomEvent('listUpdated'));
+    };
+    const updateLocalStorage = () => {
+        localStorage.setItem('items', JSON.stringify(items));
+    };
+    // ADDING EVENTLISTENER IN THE LOCALSTORAGE
+    nextTopicsLists.addEventListener("listUpdated", updateLocalStorage);
+    initLocalStorage();
+
+    // *************** ADDING NEW LIST ******************//
+
+    // ADDING NEW LIST
+    form.addEventListener("submit", (e) => {
+        e.preventDefault();
+        console.log(e.target.input.value);
+        const el = e.target;
+        const inputValue = el.input.value;
+
+        // CREATING A NEW ITEM
+        const newList = {
+            id: Date.now(),
+            title: inputValue,
+            downvotes: 0,
+            discussedOn: "",
+            upvotes: 0,
+        }
+        // PUSH THE NEW ITEM INNTO THE ITEMS LISTS
+        items.push(newList);
+        nextTopicsLists.dispatchEvent(new CustomEvent('listUpdated'));
+        showPeople(items);
+    });
 }
 
 fetchdata();
