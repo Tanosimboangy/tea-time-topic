@@ -1,0 +1,28 @@
+body {
+    margin: 0;
+    padding: 1rem;
+}
+
+ul {
+    margin: 0;
+    padding: 0;
+}
+li {
+    list-style: none;
+}
+
+.add {
+    padding: 1rem;
+    background-color: rgb(183, 183, 183);
+    border-radius: 5px;
+    margin-bottom: 1rem;
+}
+
+.article {
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    background-color: rgb(183, 183, 183);
+    border-radius: 5px;
+    margin-bottom: 1rem;
+}
