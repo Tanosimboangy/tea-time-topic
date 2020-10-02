@@ -1,23 +1,22 @@
-// Grabbing these elements
-const form = document.querySelector("form.form");
-const input = document.querySelector("input.add");
-const submitBtn = document.querySelector("button.submit");
-const nextTopicsLists = document.querySelector(".next");
-const pastTopicsLists = document.querySelector(".past");
+import { form, input, submiBtn, nextTopicsLists, pastTopicsLists } from './lib/elements.js';
+console.log(form, input, submiBtn, nextTopicsLists, pastTopicsLists);
+
+
 
 // Declaring the API link as a variable
 const endpoints = "https://gist.githubusercontent.com/Pinois/93afbc4a061352a0c70331ca4a16bb99/raw/6da767327041de13693181c2cb09459b0a3657a1/topics.json";
-let items = [];
+let items;
 
 // Fetching the data form the API
 async function fetchdata() {
     const response = await fetch(endpoints);
     const data = await response.json();
-    console.log(data);
+    items = data;
+    console.log(items);
 
     // Mapping through the items
     function showLists() {
-        return data.map(person => { 
+        return items.map(person => { 
             return `
             <article data-id="${person.id}" value="${person.id}" class="article">
                 <ul>
@@ -48,6 +47,23 @@ async function fetchdata() {
         nextTopicsLists.innerHTML = html;
     }
     showPeople();
+
+    // const initLocalStorage = () => {
+    //     const stringFromLS = localStorage.getItem('data');
+    //     const lsItems = JSON.parse(stringFromLS);
+    //     if (lsItems) {
+    //         data = lsItems;
+    //         showPeople();
+    //     }
+    //     nextTopicsLists.dispatchEvent(new CustomEvent('listUpdated'));
+    // };
+    
+    // const updateLocalStorage = () => {
+    //     localStorage.setItem('data', JSON.stringify(data));
+    // };
+    // // Adding eventListner in the updateLocalStorage
+    // nextTopicsLists.addEventListener("listUpdated", updateLocalStorage);
+    // initLocalStorage();
 }
 
 fetchdata();
@@ -68,18 +84,4 @@ fetchdata();
 
 
 
-// const initLocalStorage = () => {
-//     const stringFromLS = localStorage.getItem('persons');
-//     const lsItems = JSON.parse(stringFromLS);
-//     if (lsItems) {
-//         persons = lsItems;
-//         showPeople();
-//     }
-//     container.dispatchEvent(new CustomEvent('listUpdated'));
-// };
-// const updateLocalStorage = () => {
-//     localStorage.setItem('persons', JSON.stringify(persons));
-// };
-// // Adding eventListner in the updateLocalStorage
-// container.addEventListener("listUpdated", updateLocalStorage);
-// initLocalStorage();
+
