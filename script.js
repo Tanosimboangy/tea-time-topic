@@ -10,11 +10,12 @@ async function fetchdata() {
     const response = await fetch(endpoints);
     const data = await response.json();
     items = data;
+    // A bit problem of the update
     console.log(items);
 
     // Mapping through the items
     function showLists(items) {
-        return items.map(person => { 
+        return items.map(person => {
             return `
             <article data-id="${person.id}" value="${person.id}" class="article">
                 <ul>
@@ -26,12 +27,12 @@ async function fetchdata() {
                     </li>
                     <li>
                         <ul>
-                            <li><button type="button" class="increase">Increase</button></li>
-                            <li>${person.upvotes}</li>
+                            <li><button value="${person.id}" type="button" id="increase">Increase</button></li>
+                            <li id="upvotes">${person.upvotes}</li>
                         </ul>
                         <ul>
-                            <li><button type="button" class="decrease">Decrease</button></li>
-                            <li>${person.downvotes}</li>
+                            <li><button type="button" value="${person.id}" id="decrease">Decrease</button></li>
+                            <li id="downvotes">${person.downvotes}</li>
                         </ul>
                     </li>
                 </ul>
@@ -88,6 +89,30 @@ async function fetchdata() {
         nextTopicsLists.dispatchEvent(new CustomEvent('listUpdated'));
         showPeople(items);
     });
+
+    function decrease(e) {
+        const El = e.target;
+        const decreaseBtn = El.matches("#decrease");
+        if (decreaseBtn) {
+            const upvotesEl = El.matches("#upvotes");
+            // console.log(upvotesEl);
+            // addUpvotes();
+        }
+        console.log(decreaseBtn);
+
+        // const increaseBtn = El.matches(".increase");
+        // if (increaseBtn) {
+        //     const downvotesEl = El.matches(".downvotes");
+        //     // console.log(downvotesEl);
+        // }
+        // console.log(increaseBtn);
+    }
+
+    // const addUpvotes = (e) => {
+
+    // }
+
+    window.addEventListener('click', decrease);
 }
 
 fetchdata();
