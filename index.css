@@ -1,10 +1,18 @@
 body {
     margin: 0;
     padding: 1rem;
+    background-color: orange;
+}
+
+h1 {
+    text-align: center;
+}
+
+h1, h2, p {
+    margin: 0;
 }
 
 ul {
-    margin: 0;
     padding: 0;
 }
 li {
@@ -25,4 +33,15 @@ li {
     background-color: rgb(183, 183, 183);
     border-radius: 5px;
     margin-bottom: 1rem;
+}
+.title {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 16px;
+}
+
+button {
+    padding: .5rem 1rem;
 }

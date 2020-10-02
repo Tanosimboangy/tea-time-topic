@@ -15,43 +15,40 @@ async function fetchdata() {
     const data = await response.json();
     console.log(data);
 
-    // Displaying the lists
+    // Mapping through the items
     function showLists() {
         return data.map(person => { 
             return `
             <article data-id="${person.id}" value="${person.id}" class="article">
                 <ul>
                     <li>
-                        <li><p>${person.title}</p></li>
-                        <li><button type="button" class="acrchive"> Archive </button></li>
+                        <ul class="title">
+                            <li><p>${person.title}</p></li>
+                            <li><button type="button" class="acrchive"> Archive </button></li>
+                        </ul>
                     </li>
                     <li>
-                        <li>
-                            <ul>
-                                <li><button type="button" class="increase">Increase</button></li>
-                                <li>${person.upvotes}</li>
-                            </ul>
-                        </li>
-                        <li>
-                            <ul>
-                                <li><button type="button" class="decrease">Decrease</button></li>
-                                <li>${person.downvotes}</li>
-                            </ul>
-                        </li>
+                        <ul>
+                            <li><button type="button" class="increase">Increase</button></li>
+                            <li>${person.upvotes}</li>
+                        </ul>
+                        <ul>
+                            <li><button type="button" class="decrease">Decrease</button></li>
+                            <li>${person.downvotes}</li>
+                        </ul>
                     </li>
                 </ul>
             </article>
             `
         }).join("");
     }
+    // Displaying the lists
     const showPeople = () => {
         const html = showLists(items);
         nextTopicsLists.innerHTML = html;
     }
     showPeople();
 }
-
-
 
 fetchdata();
 
